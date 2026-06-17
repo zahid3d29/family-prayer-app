@@ -12,7 +12,7 @@ import AdminLogin from "./pages/AdminLogin";
 
 function App() {
   return (
-    <BrowserRouter>
+
       <Routes>
         <Route
           path="/"
@@ -40,7 +40,7 @@ function App() {
         />        
 
       </Routes>
-    </BrowserRouter>
+
   );
 }
 

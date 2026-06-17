@@ -4,18 +4,18 @@ import tailwindcss from '@tailwindcss/vite'
 
 
 
-export default defineConfig({
-  base: "/family-prayer-app/",
-  plugins: [react()],
-});
-
 // export default defineConfig({
 //   base: "/family-prayer-app/",
-//   plugins: [
-//     react(),
-//     tailwindcss(),
-//   ],
-// })
+//   plugins: [react()],
+// });
+
+export default defineConfig({
+  base: "/family-prayer-app/",
+  plugins: [
+    react(),
+    tailwindcss(),
+  ],
+})
 
 
 
