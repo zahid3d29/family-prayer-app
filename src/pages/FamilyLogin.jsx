@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import backgroundImage from "../assets/kobar_ammu.jpg";
 
 const FAMILY_PASSWORD = "bismillah786";
 
@@ -27,10 +28,17 @@ export default function FamilyLogin() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+    <main
+      className="relative flex min-h-screen items-center justify-center bg-cover bg-center px-4"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+      }}
+    >
+      <div className="absolute inset-0 bg-black/55" />
+
       <form
         onSubmit={handleLogin}
-        className="w-full max-w-md rounded-lg border border-gray-200 bg-white p-8 shadow-sm"
+        className="relative z-10 w-full max-w-md rounded-lg border border-white/30 bg-white/90 p-8 shadow-xl backdrop-blur-sm"
       >
         <h1 className="text-2xl font-bold text-gray-950">
           Family Login
