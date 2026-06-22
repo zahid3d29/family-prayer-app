@@ -11,7 +11,7 @@ export default function AdminLogin() {
     e.preventDefault();
 
     if (
-      password === "familyprayer786"
+      password === "bismillah786"
     ) {
       localStorage.setItem(
         "adminLoggedIn",

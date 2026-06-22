@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import Navbar from "../components/Navbar";
 import { Navigate } from "react-router-dom";
@@ -7,11 +7,7 @@ export default function Admin() {
   const [assignments, setAssignments] =
     useState([]);
 
-  useEffect(() => {
-    loadAssignments();
-  }, []);
-
-  async function loadAssignments() {
+  const loadAssignments = useCallback(async () => {
     const { data } = await supabase
       .from("assignments")
       .select(`
@@ -29,7 +25,11 @@ export default function Admin() {
       });
 
     setAssignments(data || []);
-  }
+  }, []);
+
+  useEffect(() => {
+    Promise.resolve().then(() => loadAssignments());
+  }, [loadAssignments]);
 
   async function deleteAssignment(id) {
     console.log("Deleting ID:", id);

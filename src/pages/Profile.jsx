@@ -1,126 +1,163 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import { supabase } from "../lib/supabase";
-import Navbar from "../components/Navbar";
+
+const monthNames = [
+  "",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 export default function Profile() {
-  const [phone, setPhone] = useState("");
-  const [history, setHistory] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { phone } = useParams();
 
-  async function searchHistory() {
-    setLoading(true);
+  const [user, setUser] = useState(null);
+  const [records, setRecords] = useState([]);
 
-    const { data, error } = await supabase
-      .from("assignments")
-      .select(`
-        id,
-        para_number,
-        month,
-        year,
-        users (
-          name,
-          phone
-        )
-      `);
+  const loadProfile = useCallback(async () => {
+    const { data: userData } = await supabase
+      .from("users")
+      .select("*")
+      .eq("phone", phone)
+      .single();
 
-    if (error) {
-      console.error(error);
-      setLoading(false);
-      return;
-    }
+    if (!userData) return;
 
-    const filtered = data.filter(
-      item => item.users?.phone === phone
-    );
+    setUser(userData);
 
-    setHistory(filtered);
-    setLoading(false);
-  }
+    const { data: assignments } =
+      await supabase
+        .from("assignments")
+        .select("*")
+        .eq("user_id", userData.id)
+        .order("year", {
+          ascending: false,
+        })
+        .order("month", {
+          ascending: false,
+        })
+        .order("para_number");
 
-  const groupedHistory = history.reduce(
-    (acc, item) => {
-      const key = `${item.month}-${item.year}`;
+    const grouped = {};
 
-      if (!acc[key]) {
-        acc[key] = [];
+    assignments?.forEach((item) => {
+      const key =
+        `${item.month}-${item.year}`;
+
+      if (!grouped[key]) {
+        grouped[key] = {
+          month: item.month,
+          year: item.year,
+          paras: [],
+        };
       }
 
-      acc[key].push(item);
+      grouped[key].paras.push(
+        item.para_number
+      );
+    });
 
-      return acc;
-    },
-    {}
-  );
+    setRecords(
+      Object.values(grouped)
+    );
+  }, [phone]);
+
+  useEffect(() => {
+    Promise.resolve().then(() => loadProfile());
+  }, [loadProfile]);
+
+  if (!user)
+    return (
+      <div className="p-8">
+        Loading...
+      </div>
+    );
 
   return (
-    <>
-      <Navbar />
+    <div className="max-w-6xl mx-auto p-8">
+      <h1 className="text-4xl font-bold text-center">
+        Records of{" "}
+        <span className="text-green-700">
+          {user.name}
+        </span>
+      </h1>
 
-      <div className="max-w-4xl mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-6">
-          Search History
-        </h1>
+      <p className="text-center mt-2">
+        Phone: {user.phone}
+      </p>
 
-        <div className="flex gap-2 mb-6">
-          <input
-            type="text"
-            placeholder="Phone Number"
-            value={phone}
-            onChange={(e) =>
-              setPhone(e.target.value)
-            }
-            className="border p-2 rounded w-full"
-          />
+      {records.map((record) => (
+        <div
+          key={`${record.month}-${record.year}`}
+          className="mt-10"
+        >
+          <h2 className="text-2xl font-bold text-center mb-4">
+            {
+              monthNames[
+                record.month
+              ]
+            }{" "}
+            {record.year}
+          </h2>
 
-          <button
-            onClick={searchHistory}
-            className="bg-blue-600 text-white px-4 rounded"
-          >
-            Search
-          </button>
+          <table className="w-full border">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border p-2">
+                  Assigned Paras
+                </th>
+                <th className="border p-2">
+                  Month
+                </th>
+                <th className="border p-2">
+                  Year
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td className="border p-2">
+                  {record.paras.join(
+                    ", "
+                  )}
+                </td>
+
+                <td className="border p-2">
+                  {
+                    monthNames[
+                      record.month
+                    ]
+                  }
+                </td>
+
+                <td className="border p-2">
+                  {record.year}
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      ))}
 
-        {loading && (
-          <p>Loading...</p>
-        )}
-
-        {!loading && history.length === 0 && (
-          <p>No records found.</p>
-        )}
-
-        {Object.entries(groupedHistory).map(
-          ([key, records]) => (
-            <div
-              key={key}
-              className="border rounded-lg p-4 mb-4 shadow"
-            >
-              <h2 className="text-xl font-bold mb-2">
-                {records[0].month}/
-                {records[0].year}
-              </h2>
-
-              <div className="mb-2">
-                <strong>Name:</strong>{" "}
-                {records[0].users?.name}
-              </div>
-
-              <div className="mb-2">
-                <strong>Phone:</strong>{" "}
-                {records[0].users?.phone}
-              </div>
-
-              <div>
-                <strong>Paras:</strong>{" "}
-                {records
-                  .map(
-                    (r) => r.para_number
-                  )
-                  .join(", ")}
-              </div>
-            </div>
-          )
-        )}
+      <div className="text-center mt-10">
+        <Link
+          to="/"
+          className="text-blue-600 underline"
+        >
+          Back to Home
+        </Link>
       </div>
-    </>
+    </div>
   );
 }
