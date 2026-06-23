@@ -231,26 +231,53 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen bg-white text-gray-950">
-      <section
-        className="relative flex min-h-72 items-center justify-center bg-cover bg-top px-4 py-16 text-center text-white"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroImage})`,
-        }}
-      >
-        <div className="max-w-4xl">
-          <p className="mb-2 text-base font-bold text-sky-400">
-            {formatDate(today)}
-          </p>
+      <section className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32">
+        <img
+          src={heroImage}
+          alt=""
+          className="absolute inset-0 -z-10 size-full object-cover object-top md:object-center"
+        />
+        <div className="absolute inset-0 -z-10 bg-gray-900/65" />
+        <div
+          aria-hidden="true"
+          className="hidden sm:absolute sm:-top-10 sm:right-1/2 sm:-z-10 sm:mr-10 sm:block sm:transform-gpu sm:blur-3xl"
+        >
+          <div
+            style={{
+              clipPath:
+                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+            }}
+            className="aspect-1097/845 w-274.25 bg-linear-to-tr from-[#ff4694] to-[#776fff] opacity-20"
+          />
+        </div>
+        <div
+          aria-hidden="true"
+          className="absolute -top-52 left-1/2 -z-10 -translate-x-1/2 transform-gpu blur-3xl sm:-top-112 sm:ml-16 sm:translate-x-0"
+        >
+          <div
+            style={{
+              clipPath:
+                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+            }}
+            className="aspect-1097/845 w-274.25 bg-linear-to-tr from-[#ff4694] to-[#776fff] opacity-20"
+          />
+        </div>
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl lg:mx-0">
+            <p className="mb-3 text-center font-semibold text-sky-300">
+              {formatDate(today)}
+            </p>
+            <h1 className="text-5xl text-center font-semibold tracking-tight text-white sm:text-7xl">
+              Monthly Quran recitation Record
+            </h1>
+            <p
+              className="mt-8 text-lg/8 text-center font-medium text-pretty text-gray-300 sm:text-xl/8"
+              dir="rtl"
+            >
+              اللهم اغفر لنا جميع الأخطاء والهفوات في تلاوة القرآن الكريم التالية وأضف ثوابها إلى أعمال والدتنا كامرون نهار بنت محمد أشرف علي. اللهم آمين
+            </p>
+          </div>
 
-          <h1 className="text-4xl font-bold leading-tight md:text-5xl">
-            Monthly Quran
-            <br />
-            recitation Record
-          </h1>
-
-          <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-white/90" dir="rtl">
-            اللهم اغفر لنا جميع الأخطاء والهفوات في تلاوة القرآن الكريم التالية وأضف ثوابها إلى أعمال والدتنا كامرون نهار بنت محمد أشرف علي. اللهم آمين
-          </p>
         </div>
       </section>
 
@@ -266,96 +293,108 @@ export default function Dashboard() {
         </div>
       )}
 
-      <section className="mx-auto max-w-3xl px-6 py-20">
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-8 md:grid-cols-2">
-            <label className="block">
-              <span className="mb-3 block text-sm font-bold">Name</span>
-              <input
-                className="h-12 w-full rounded-md border border-gray-300 px-4 text-base outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100"
-                placeholder="Abdullah"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-              />
-            </label>
-
-            <label className="block">
-              <span className="mb-3 block text-sm font-bold">Phone number</span>
-              <div className="flex h-12 overflow-hidden rounded-md border border-gray-300 focus-within:border-sky-500 focus-within:ring-2 focus-within:ring-sky-100">
-                <span className="flex items-center border-r border-gray-300 bg-gray-100 px-4 text-gray-600">
-                  +880
+      <section
+        id="registration"
+        className="bg-linear-to-br from-teal-700 via-cyan-700 to-sky-800 py-24 sm:py-32"
+      >
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <form className="mx-auto max-w-3xl" onSubmit={handleSubmit}>
+            <div className="grid gap-8 md:grid-cols-2">
+              <label className="block">
+                <span className="mb-3 block text-sm font-bold text-white">
+                  Name
                 </span>
                 <input
-                  className="min-w-0 flex-1 px-4 text-base outline-none"
-                  placeholder="16873XXXXX"
-                  value={phone}
-                  onChange={(event) => setPhone(event.target.value)}
+                  className="h-12 w-full rounded-md border border-white/30 bg-white/95 px-4 text-base text-gray-950 shadow-sm outline-none placeholder:text-gray-500 focus:border-white focus:ring-2 focus:ring-white/40"
+                  placeholder="Abdullah"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
                 />
-              </div>
-            </label>
-          </div>
+              </label>
 
-          <h2 className="mt-16 text-xl font-bold">
-            Select the Para you can read in {currentMonthName}, {currentYear} :
-          </h2>
-
-          <div className="mt-7 grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-3 md:grid-cols-5">
-            {[...Array(30)].map((_, index) => {
-              const para = index + 1;
-              const taken = getTakenPara(para);
-              const selected = selectedParas.includes(para);
-
-              return (
-                <label
-                  key={para}
-                  className={`min-h-14 text-base ${
-                    taken ? "text-gray-950" : "cursor-pointer"
-                  }`}
-                >
-                  <span className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      disabled={Boolean(taken)}
-                      checked={selected || Boolean(taken)}
-                      onChange={() => togglePara(para)}
-                      className="h-5 w-5 rounded border-gray-400 accent-sky-500 disabled:accent-gray-300"
-                    />
-                    Para {para}
+              <label className="block">
+                <span className="mb-3 block text-sm font-bold text-white">
+                  Phone number
+                </span>
+                <div className="flex h-12 overflow-hidden rounded-md border border-white/30 bg-white/95 shadow-sm focus-within:border-white focus-within:ring-2 focus-within:ring-white/40">
+                  <span className="flex items-center border-r border-gray-300 bg-gray-100 px-4 text-gray-600">
+                    +880
                   </span>
+                  <input
+                    className="min-w-0 flex-1 px-4 text-base text-gray-950 outline-none placeholder:text-gray-500"
+                    placeholder="16873XXXXX"
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value)}
+                  />
+                </div>
+              </label>
+            </div>
 
-                  {taken && (
-                    <Link
-                      to={`/profile/${taken.users?.phone}`}
-                      className="mt-1 block text-blue-700 hover:underline"
-                    >
-                      (Taken by {taken.users?.name || "Unknown"})
-                    </Link>
-                  )}
-                </label>
-              );
-            })}
+            <h2 className="mt-16 text-xl font-bold text-white">
+              Select the Para you can read in {currentMonthName}, {currentYear} :
+            </h2>
+
+            <div
+              id="para-list"
+              className="mt-7 grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-3 md:grid-cols-5"
+            >
+              {[...Array(30)].map((_, index) => {
+                const para = index + 1;
+                const taken = getTakenPara(para);
+                const selected = selectedParas.includes(para);
+
+                return (
+                  <label
+                    key={para}
+                  className={`min-h-14 text-base ${
+                      taken ? "text-cyan-100/75" : "cursor-pointer text-white"
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        disabled={Boolean(taken)}
+                        checked={selected || Boolean(taken)}
+                        onChange={() => togglePara(para)}
+                        className="h-5 w-5 rounded border-white/60 accent-teal-300 disabled:accent-cyan-100"
+                      />
+                      Para {para}
+                    </span>
+
+                    {taken && (
+                      <Link
+                        to={`/profile/${taken.users?.phone}`}
+                        className="mt-1 block text-cyan-100 hover:text-white hover:underline"
+                      >
+                        (Taken by {taken.users?.name || "Unknown"})
+                      </Link>
+                    )}
+                  </label>
+                );
+              })}
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="mt-12 h-12 w-full rounded-md bg-white px-4 font-bold text-teal-800 shadow-sm transition hover:bg-cyan-50 disabled:cursor-not-allowed disabled:bg-cyan-100 disabled:text-teal-500"
+            >
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </button>
+          </form>
+
+          <div className="mt-8 text-center">
+            <Link
+              to="/login"
+              onClick={() => {
+                localStorage.removeItem("familyLoggedIn");
+                localStorage.removeItem("adminLoggedIn");
+              }}
+              className="font-bold text-cyan-50/85 hover:text-white hover:underline"
+            >
+              Logout →
+            </Link>
           </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="mt-12 h-12 w-full rounded-md bg-sky-500 px-4 font-bold text-white transition hover:bg-sky-600 disabled:cursor-not-allowed disabled:bg-sky-300"
-          >
-            {isSubmitting ? "Submitting..." : "Submit"}
-          </button>
-        </form>
-
-        <div className="mt-8 text-center">
-          <Link
-            to="/login"
-            onClick={() => {
-              localStorage.removeItem("familyLoggedIn");
-              localStorage.removeItem("adminLoggedIn");
-            }}
-            className="font-bold text-gray-950 hover:underline"
-          >
-            Logout →
-          </Link>
         </div>
       </section>
     </main>
